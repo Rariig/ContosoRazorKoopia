@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ContosoUniversityWithRazor.Models.Course">
+    <Position X="7" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAgEAAAAAAAAAAEAAAACQAAAAQAAAAAAA=</HashCode>
+      <FileName>Models\Course.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Department" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ContosoUniversityWithRazor.Models.CourseAssignment">
+    <Position X="2.75" Y="5.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAACAAAAQAAAQAAAAAAAA=</HashCode>
+      <FileName>Models\CourseAssignment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ContosoUniversityWithRazor.Models.Department">
+    <Position X="7" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAABAQAACEAAAAAAAAAAFAAgAA=</HashCode>
+      <FileName>Models\Department.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Administrator" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Courses" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="ContosoUniversityWithRazor.Models.Enrollment">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAIAAAAAAAAAAAAwAAAAAAAECAAA=</HashCode>
+      <FileName>Models\Enrollment.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Grade" />
+      <Property Name="Student" />
+      <Property Name="Course" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ContosoUniversityWithRazor.Models.Instructor">
+    <Position X="2.5" Y="3.75" Width="2" />
+    <AssociationLine Name="OfficeAssignment" Type="ContosoUniversityWithRazor.Models.OfficeAssignment" FixedToPoint="true">
+      <Path>
+        <Point X="4.188" Y="3.75" />
+        <Point X="4.188" Y="2.046" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAACAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Models\Instructor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="OfficeAssignment" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="CourseAssignments" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="ContosoUniversityWithRazor.Models.OfficeAssignment">
+    <Position X="3.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAACAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Models\OfficeAssignment.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Instructor" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ContosoUniversityWithRazor.Models.Person">
+    <Position X="0.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgIAAAAAAAAAAAAAAAAAAAAAAAAAgAAg=</HashCode>
+      <FileName>Models\Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ContosoUniversityWithRazor.Models.Student">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Student.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Enrollments" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Enum Name="ContosoUniversityWithRazor.Models.Grade">
+    <Position X="4.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAtAEAAAA=</HashCode>
+      <FileName>Models\Enrollment.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
