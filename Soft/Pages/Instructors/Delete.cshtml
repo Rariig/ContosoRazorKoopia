@@ -2,7 +2,9 @@
 @model ContosoUniversityWithRazor.Pages.Instructors.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
+    Layout = "_Delete";
+    ViewData["Page"] = "Instructors";
+    ViewData["ItemId"] = Model.Instructor.ID;
 }
 
 <h1>Delete</h1>
