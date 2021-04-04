@@ -47,11 +47,20 @@
     </dl>
 
     <form method="post">
-        <input type="hidden" asp-for="Department.DepartmentID" />
-        <input type="hidden" asp-for="Department.RowVersion" />
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-danger" /> |
             <a asp-page="./Index">Back to List</a>
         </div>
     </form>
 </div>
+
+@section DeleteBinding
+{
+    <input type="hidden" asp-for="Department.DepartmentID" />
+    <input type="hidden" asp-for="Department.RowVersion" />
+}
+
+@section ErrorMessage
+{
+    <p class="text-danger">@Model.ConcurrencyErrorMessage</p>
+}

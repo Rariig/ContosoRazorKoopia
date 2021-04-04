@@ -35,10 +35,17 @@
             @Html.DisplayFor(model => model.Student.FirstMidName)
         </dd>
     </dl>
-    
+
     <form method="post">
-        <input type="hidden" asp-for="Student.ID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-page="./Index">Back to List</a>
     </form>
 </div>
+
+@section DeleteBinding
+{
+    <input type="hidden" asp-for="Student.ID" />
+}
+
+@section ErrorMessage
+{}

@@ -39,10 +39,18 @@
             @Html.DisplayFor(model => model.Course.Department.Name)
         </dd>
     </dl>
-    
+
     <form method="post">
         <input type="hidden" asp-for="Course.CourseID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-page="./Index">Back to List</a>
     </form>
 </div>
+
+@section DeleteBinding
+{
+    <input type="hidden" asp-for="Course.CourseID" />
+}
+
+@section ErrorMessage
+{}
