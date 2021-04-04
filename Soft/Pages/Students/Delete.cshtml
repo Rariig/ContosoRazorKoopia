@@ -7,13 +7,7 @@
     ViewData["ItemId"] = Model.Student.ID;
 }
 
-<h1>Delete</h1>
-
-<p class="text-danger">@Model.ErrorMessage</p>
-
-<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Student</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -35,11 +29,6 @@
             @Html.DisplayFor(model => model.Student.FirstMidName)
         </dd>
     </dl>
-
-    <form method="post">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
-    </form>
 </div>
 
 @section DeleteBinding
@@ -48,4 +37,4 @@
 }
 
 @section ErrorMessage
-{}
+{<p class="text-danger">@Model.ErrorMessage</p>}

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Pages.Extensions
 {
-    class ShowHtml
+    public static class ShowHtml
     {
+
     }
 }
