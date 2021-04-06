@@ -1,14 +1,14 @@
 ﻿@page
 @model ContosoUniversityWithRazor.Pages.Instructors.CreateModel
+@using ContosoRazorKoopia.Pages.Extensions;
 
 @{
+    Layout = "Shared/_Create";
     ViewData["Title"] = "Create";
+    ViewData["Page"] = "Instructors";
+
 }
 
-<h2>Create</h2>
-
-<h4>Instructor</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
@@ -40,8 +40,10 @@
                             @{
                                 int cnt = 0;
 
-                                foreach (var course in Model.AssignedCourseDataList) {
-                                    if (cnt++ % 3 == 0) {
+                                foreach (var course in Model.AssignedCourseDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
                                     @:</tr><tr>
                                     }
                                     @:<td>
@@ -63,11 +65,3 @@
             </form>
         </div>
     </div>
-
-    <div>
-        <a asp-page="Index">Back to List</a>
-    </div>
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
