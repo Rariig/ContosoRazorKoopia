@@ -1,32 +1,16 @@
 ﻿@page
 @model ContosoUniversityWithRazor.Pages.Instructors.DetailsModel
+@using ContosoRazorKoopia.Pages.Extensions;
 
 @{
     Layout = "_Details";
-    ViewData["Title"] = "Instructors";
+    ViewData["Title"] = "Details";
+    ViewData["Page"] = "Instructors";
+    ViewData["ItemId"] = Model.Instructor.ID;
 }
 
+@Html.Show(model => model.Instructor.HireDate)
+        
+@Html.Show(model => model.Instructor.LastName)
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Instructor.HireDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Instructor.HireDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Instructor.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Instructor.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Instructor.FirstMidName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Instructor.FirstMidName)
-        </dd>
-    </dl>
-</div>
+@Html.Show(model => model.Instructor.FirstMidName)

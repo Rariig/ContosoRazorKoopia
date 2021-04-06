@@ -6,7 +6,7 @@ using ContosoRazorKoopia.Pages.Extensions;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Pages.Extensions
+namespace ContosoRazorKoopia.Pages.Extensions
 {
     public static class EditorHtml
     {
