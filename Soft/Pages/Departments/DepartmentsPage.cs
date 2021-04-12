@@ -13,7 +13,7 @@ namespace Contoso.Soft.Pages.Departments
 
         public DepartmentsPage(ApplicationDbContext c) => db = c;
 
-            public IActionResult OnGet()
+            public IActionResult OnGetCreate()
         {
             ViewData["InstructorID"] = new SelectList(db.Instructors, "ID", "Discriminator");
             return Page();
@@ -22,7 +22,7 @@ namespace Contoso.Soft.Pages.Departments
         [BindProperty] public Department Department { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostCreateAsync()
         {
             if (!ModelState.IsValid)
             {
