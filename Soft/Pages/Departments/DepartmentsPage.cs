@@ -13,13 +13,14 @@ namespace Contoso.Soft.Pages.Departments
 
         public DepartmentsPage(ApplicationDbContext c) => db = c;
 
-            public IActionResult OnGetCreate()
+        [BindProperty] public Department Department { get; set; }
+
+        public IActionResult OnGetCreate()
         {
             ViewData["InstructorID"] = new SelectList(db.Instructors, "ID", "Discriminator");
             return Page();
         }
 
-        [BindProperty] public Department Department { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostCreateAsync()
