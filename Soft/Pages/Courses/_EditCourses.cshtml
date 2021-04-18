@@ -1,3 +1,7 @@
-﻿@* @using ContosoRazorKoopia.Pages.Extensions
-@model ContosoUniversityWithRazor.Pages.Courses.CoursesModel  *@
+﻿@using ContosoRazorKoopia.Pages.Extensions
+@model Contoso.Soft.Pages.Courses.CoursesModel
 
+@Html.Editor(model => model.Course.CourseID)
+@Html.Editor(model => model.Course.Title)
+@Html.Editor(model => model.Course.Credits)
+@*@Html.Select(model => model.Course.DepartmentID, Model.DepartmentNameSL,"--Select Department--")*@
