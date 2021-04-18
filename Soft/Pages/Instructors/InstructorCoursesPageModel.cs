@@ -6,9 +6,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContosoUniversityWithRazor.Pages.Instructors {
     public class InstructorCoursesPageModel :PageModel {
+
+        private readonly ApplicationDbContext db;
+
+        public InstructorCoursesPageModel(ApplicationDbContext c) => db = c;
+
+        [BindProperty]
+        public Instructor Instructor { get; set; }
 
         public List<AssignedCourseData> AssignedCourseDataList;
 
@@ -56,6 +65,165 @@ namespace ContosoUniversityWithRazor.Pages.Instructors {
                     }
                 }
             }
+        }
+
+        public IActionResult OnGetCreate()
+        {
+            var instructor = new Instructor();
+            instructor.CourseAssignments = new List<CourseAssignment>();
+
+            // Provides an empty collection for the foreach loop
+            // foreach (var course in Model.AssignedCourseDataList)
+            // in the Create Razor page.
+            PopulateAssignedCourseData(db, instructor);
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostCreateAsync(string[] selectedCourses)
+        {
+            var newInstructor = new Instructor();
+            if (selectedCourses != null)
+            {
+                newInstructor.CourseAssignments = new List<CourseAssignment>();
+                foreach (var course in selectedCourses)
+                {
+                    var courseToAdd = new CourseAssignment
+                    {
+                        CourseID = int.Parse(course)
+                    };
+                    newInstructor.CourseAssignments.Add(courseToAdd);
+                }
+            }
+
+            if (await TryUpdateModelAsync<Instructor>(
+                newInstructor,
+                "Instructor",
+                i => i.FirstMidName, i => i.LastName,
+                i => i.HireDate, i => i.OfficeAssignment))
+            {
+                db.Instructors.Add(newInstructor);
+                await db.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            PopulateAssignedCourseData(db, newInstructor);
+            return Page();
+        }
+
+        public async Task<IActionResult> OnGetEditAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Instructor = await db.Instructors
+                .Include(i => i.OfficeAssignment)
+                .Include(i => i.CourseAssignments).ThenInclude(i => i.Course)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+            if (Instructor == null)
+            {
+                return NotFound();
+            }
+            PopulateAssignedCourseData(db, Instructor);
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostEditAsync(int? id, string[] selectedCourses)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var instructorToUpdate = await db.Instructors
+                .Include(i => i.OfficeAssignment)
+                .Include(i => i.CourseAssignments)
+                    .ThenInclude(i => i.Course)
+                .FirstOrDefaultAsync(s => s.ID == id);
+
+            if (instructorToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            if (await TryUpdateModelAsync<Instructor>(
+                instructorToUpdate,
+                "Instructor",
+                i => i.FirstMidName, i => i.LastName,
+                i => i.HireDate, i => i.OfficeAssignment))
+            {
+                if (String.IsNullOrWhiteSpace(
+                    instructorToUpdate.OfficeAssignment?.Location))
+                {
+                    instructorToUpdate.OfficeAssignment = null;
+                }
+                UpdateInstructorCourses(db, selectedCourses, instructorToUpdate);
+                await db.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            UpdateInstructorCourses(db, selectedCourses, instructorToUpdate);
+            PopulateAssignedCourseData(db, instructorToUpdate);
+            return Page();
+        }
+        public async Task<IActionResult> OnGetDetailsAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Instructor = await db.Instructors.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (Instructor == null)
+            {
+                return NotFound();
+            }
+            return Page();
+        }
+
+        public async Task<IActionResult> OnGetDeleteAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Instructor = await db.Instructors.FirstOrDefaultAsync(m => m.ID == id);
+
+            if (Instructor == null)
+            {
+                return NotFound();
+            }
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Instructor instructor = await db.Instructors
+                .Include(i => i.CourseAssignments)
+                .SingleAsync(i => i.ID == id);
+
+            if (instructor == null)
+            {
+                return RedirectToPage("./Index");
+            }
+
+            var departments = await db.Departments
+                .Where(d => d.InstructorID == id)
+                .ToListAsync();
+            departments.ForEach(d => d.InstructorID = null);
+
+            db.Instructors.Remove(instructor);
+
+            await db.SaveChangesAsync();
+            return RedirectToPage("./Index");
         }
     }
 }
