@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ContosoUniversityWithRazor.Pages.Instructors {
-    public class InstructorCoursesPageModel :PageModel {
+    public class InstructorsModel :PageModel {
 
         private readonly ApplicationDbContext db;
 
-        public InstructorCoursesPageModel(ApplicationDbContext c) => db = c;
+        public InstructorsModel(ApplicationDbContext c) => db = c;
 
         [BindProperty]
         public Instructor Instructor { get; set; }
