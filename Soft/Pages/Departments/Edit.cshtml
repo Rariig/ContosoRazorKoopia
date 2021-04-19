@@ -10,7 +10,5 @@
 <input type="hidden" asp-for="Department.DepartmentID" />
 <input type="hidden" asp-for="Department.RowVersion" />
 
-@Html.Editor(model => model.Department.Name)
-@Html.Editor(model => model.Department.Budget)
-@Html.Editor(model => model.Department.StartDate)
- @* @Html.Select(model => model.Department.InstructorID, Model.InstructorNameSL, "-- Select instructor --") *@
+<partial name="_EditDepartments" />
+@Html.Select(model => model.Department.InstructorID, Model.InstructorNameSL, "-- Select instructor --")
