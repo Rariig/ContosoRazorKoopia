@@ -1,6 +1,5 @@
 ﻿@page
 @model Contoso.Soft.Pages.Courses.CoursesModel
-@using ContosoRazorKoopia.Pages.Extensions;
 
 @{
     Layout = "_Details";
@@ -9,11 +8,4 @@
     ViewData["ItemId"] = Model.Course.CourseID;
 }
 
-
-    @Html.Show(model => model.Course.CourseID)
-
-    @Html.Show(model => model.Course.Title)
-
-    @Html.Show(model => model.Course.Credits)
-
-    @Html.Show(model => model.Course.Department,model => model.Course.Department.Name)
+<partial name="_ShowCourses" />
