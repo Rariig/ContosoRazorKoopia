@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ContosoRazorKoopia.Pages.Extensions
+namespace ContosoRazorKoopia.Pages
 {
     class BasePageModel: PageModel
     {
