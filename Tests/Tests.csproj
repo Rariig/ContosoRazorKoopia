@@ -14,14 +14,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Domain\" />
-    <Folder Include="Facade\" />
-    <Folder Include="Infra\" />
-    <Folder Include="Soft\" />
-    <Folder Include="Core\" />
-    <Folder Include="Aids\" />
-    <Folder Include="Pages\" />
+    <Folder Include="Pages\Extension\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aids\Aids.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Facade\Facade.csproj" />
+    <ProjectReference Include="..\Infra\Infra.csproj" />
+    <ProjectReference Include="..\Pages\Pages.csproj" />
+    <ProjectReference Include="..\Soft\Soft.csproj" />
   </ItemGroup>
 
 </Project>
