@@ -8,6 +8,7 @@ namespace Domain
 {
     public interface IRepo<T>
     {
+        /* string ErrorMessage { get; } */
         Task<List<T>> Get();
         Task<T> Get(int? id);
         Task Delete(int? id);
