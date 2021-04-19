@@ -1,4 +1,5 @@
 ﻿using ContosoUniversityWithRazor.Pages.Instructors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.Pages
@@ -14,10 +15,10 @@ namespace Tests.Pages
         }
 
         [TestMethod]
-        public void OnGetDeleteAsyncTest()
+        public void OnGetDeleteAsyncTestNotFound()
         {
-            dynamic r = m.OnGetDeleteAsync(null).GetAwaiter().GetResult();
-            Assert.IsNotNull(r);
+            var r = m.OnGetDeleteAsync(null).GetAwaiter().GetResult();
+            Assert.IsInstanceOfType(r,typeof(NotFoundResult));
         }
 
     }
