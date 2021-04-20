@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ContosoUniversityWithRazor.Data;
 using ContosoUniversityWithRazor.Models;
@@ -16,9 +18,47 @@ namespace Contoso.Soft.Pages.Courses
         public CoursesModel(ApplicationDbContext c) => db = c;
         
         [BindProperty]
-        public Course Course { get; set; }
+        public Course Course { get; private set; }
 
-        public SelectList DepartmentNameSL { get; set; }
+        public SelectList Departments { get; private set; }
+
+        internal DbSet<Course> courses => db?.Courses;
+        internal int? departmentId => Course?.DepartmentID;
+
+        internal void remove(Course c = null) => courses?.Remove(c ?? Course);
+        internal void add(Course c = null) => courses?.Add(c ?? Course);
+
+        internal static bool isNull(object c) => c is null;
+
+        internal async Task save(params Action[] actions)
+        {
+            foreach (var a in actions) a();
+            await db?.SaveChangesAsync();
+        }
+
+
+        internal async Task<bool> canUpdate(Course c, params Expression<Func<Course, object>>[] filter)
+            => await TryUpdateModelAsync(c, "course", filter);
+
+        internal IActionResult indexPage() => RedirectToPage("./Index");
+
+        internal Expression<Func<Course, object>>[] edFilter = {c => c.Credits, c => c.DepartmentID, c => c.Title};
+
+        internal Expression<Func<Course, object>>[] crFilter
+        {
+            get
+            {
+                var l = edFilter.ToList();
+                l.Add(c=>c.CourseID);
+                return l.ToArray();
+            }
+        }
+
+       /* internal SelectList loadDepartments(object selectedDepartment = null)
+        {
+            var q = from d in db.Departments orderby d.DepartmentID;
+            return new SelectList(q.AsNoTracking(), "DepartmentID", "Name", selectedDepartment);
+        } */
 
         public void PopulateDepartmentsDropDownList(ApplicationDbContext db,
             object selectedDepartment = null)
@@ -27,7 +67,7 @@ namespace Contoso.Soft.Pages.Courses
                 orderby d.Name // Sort by name.
                 select d;
 
-            DepartmentNameSL = new SelectList(departmentsQuery.AsNoTracking(),
+            Departments = new SelectList(departmentsQuery.AsNoTracking(),
                 "DepartmentID", "Name", selectedDepartment);
         }
 
