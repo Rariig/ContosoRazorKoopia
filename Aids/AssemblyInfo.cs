@@ -15,5 +15,5 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM.
 
-[assembly: Guid("7e579d7a-d29e-4110-a4ff-29b3dd97171f")]
+[assembly: Guid("dd95fbf0-541d-47e0-9fbb-01650afeae00")]
 [assembly: InternalsVisibleTo("Contoso.Tests")]
