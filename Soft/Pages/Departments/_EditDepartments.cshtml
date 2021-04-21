@@ -1,6 +1,8 @@
-﻿@using ContosoRazorKoopia.Pages.Extensions
-@model Contoso.Soft.Pages.Departments.DepartmentsPage
+﻿@model Contoso.Pages.DepartmentsModel
+@using ContosoRazorKoopia.Pages.Extensions
 
-@Html.Editor(model => model.Department.Name)
-@Html.Editor(model => model.Department.Budget)
-@Html.Editor(model => model.Department.StartDate)
+@Html.Editor(model => model.Item.Name)
+@Html.Editor(model => model.Item.Budget)
+@Html.Editor(model => model.Item.StartDate)
+@Html.Select(model => model.Item.AdministratorId,
+    Model.Instructors, "-- Select Instructor --")
