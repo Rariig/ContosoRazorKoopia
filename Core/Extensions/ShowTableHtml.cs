@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.JsonPatch.Helpers;
+﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-/*
-namespace ContosoRazorKoopia.Pages.Extensions
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+
+namespace Contoso.Core.Extensions
 {
     public static class ShowTableHtml
     {
-        public static IHtmlContent ShowTable<TModel, TResult>(this IHtmlHelper<TModel> h,
-            Expression<Func<TModel, IEnumerable<TResult>>> e,
-            params string[]propertyNames) => ShowTable(h, e, e,propertyNames);
+        public static IHtmlContent ShowTable<TModel, TResult>(
+            this IHtmlHelper<TModel> h, Expression<Func<TModel, IEnumerable<TResult>>> e,
+            params string[] propertyNames
+        ) => ShowTable(h, e, e, propertyNames);
 
-        public static IHtmlContent ShowTable<TModel, TResult1, TResult2>(this IHtmlHelper<TModel> h,
-            Expression<Func<TModel, TResult1>> label,
-            Expression<Func<TModel, TResult2>> value,
+
+        public static IHtmlContent ShowTable<TModel, TResult1, TResult2>(
+            this IHtmlHelper<TModel> h,
+            Expression<Func<TModel, IEnumerable<TResult1>>> label,
+            Expression<Func<TModel, IEnumerable<TResult2>>> value,
             params string[] propertyNames)
         {
             var labelStr = h.DisplayNameFor(label);
@@ -27,17 +27,7 @@ namespace ContosoRazorKoopia.Pages.Extensions
             return h.ShowTable(labelStr, v, propertyNames);
         }
 
-        public static IHtmlContent ShowTable<TModel, TClass>(this IHtmlHelper<TModel> h,
-            string label,
-            IEnumerable<TClass> list,
-            params string[] propertyNames)
-        {
-            if (h == null) throw new ArgumentNullException(nameof(h));
-            var s = htmlStrings(h, label, list, propertyNames);
-            return new HtmlContentBuilder(s);
-        }
-
-        public static IEnumerable<dynamic> getValue <TModel, TResult>(IHtmlHelper<TModel> h,
+        private static IEnumerable<dynamic> getValue<TModel, TResult>(IHtmlHelper<TModel> h,
             Expression<Func<TModel, IEnumerable<TResult>>> value)
         {
             var r = value.Compile();
@@ -45,32 +35,80 @@ namespace ContosoRazorKoopia.Pages.Extensions
             var l = v as IEnumerable<dynamic>;
             return l;
         }
+        internal static string getValue(dynamic item, string propertyName)
+        {
+            try
+            {
+                var name = propertyName ?? string.Empty;
+                var p = item.GetType().GetProperty(name);
+                var l = p?.GetCustomAttributes(typeof(DisplayFormatAttribute), true);
+                var def = (l?.Length == 1) ? l[0].NullDisplayText : null;
+                var v = p?.GetValue(item) ?? def;
+                return v?.ToString();
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
 
-        internal static List<object> htmlStrings<TModel, TClass>(IHtmlHelper<TModel> h,
-            string label,
-            IEnumerable<TClass> list,
-            string[] propertyNames)
+        public static IHtmlContent ShowTable<TModel, TClass>(this IHtmlHelper<TModel> h, string label
+            , IEnumerable<TClass> list, params string[] propertyNames)
+        {
+            if (h == null) throw new ArgumentNullException(nameof(h));
+            var s = htmlStrings(h, label, list, propertyNames);
+            return new HtmlContentBuilder(s);
+        }
+
+        internal static List<object> htmlStrings<TModel, TClass>(
+            IHtmlHelper<TModel> h, string label, IEnumerable<TClass> list, string[] propertyNames)
         {
             list ??= new List<TClass>();
-            var l = new List<object>
-            {
-                new HtmlString("<dt class =\"col-sm-2\">"),
+            var l = new List<object> {
+                new HtmlString("<dt class=\"col-sm-2\">"),
                 h.Raw(label),
                 new HtmlString("</dt>"),
-                new HtmlString("<dt class =\"col-sm-10\">"),
-                new HtmlString("<table class =\"table\">"),
+                new HtmlString("<dd class=\"col-sm-10\">"),
+                new HtmlString("<table class=\"table\">"),
                 new HtmlString("<tr>")
             };
             foreach (var item in list)
             {
                 foreach (var n in propertyNames)
                 {
-                    1.Add(new HtmlString($"<th>{getDisplayName(item, n)}</th>"));
+                    l.Add(new HtmlString($"<th>{getDisplayName(item, n)}</th>"));
                 }
-
                 break;
+            }
+            l.Add(new HtmlString("</tr>"));
+            foreach (var item in list)
+            {
+                l.Add(new HtmlString("<tr>"));
+                foreach (var n in propertyNames)
+                {
+                    l.Add(new HtmlString($"<td>{getValue(item, n)}</td>"));
+                }
+                l.Add(new HtmlString("</tr>"));
+            }
+            l.Add(new HtmlString("</table>"));
+            l.Add(new HtmlString("</dd>"));
+            return l;
+        }
+        
+        internal static string getDisplayName(dynamic item, string propertyName)
+        {
+            try
+            {
+                var name = propertyName ?? string.Empty;
+                var p = item.GetType().GetProperty(name);
+                var l = p?.GetCustomAttributes(typeof(DisplayNameAttribute), true);
+                if (l is null || l.Length < 1) return name;
+                return l[0]?.DisplayName ?? name;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
             }
         }
     }
 }
-*/
