@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ContosoUniversityWithRazor.Data;
+using ContosoUniversityWithRazor.Models;
+using Domain;
 
 namespace Infra
 {
-    class DepartmentsRepo
+    public interface IDepartmentsRepo : IRepo<Department> { }
+
+    public sealed class DepartmentsRepo : BaseRepo<Department>,
+        IDepartmentsRepo
     {
+        public DepartmentsRepo(ApplicationDbContext c) : base(c, c?.Departments) { }
     }
 }

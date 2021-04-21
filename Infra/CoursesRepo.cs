@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ContosoUniversityWithRazor.Data;
+using ContosoUniversityWithRazor.Models;
+using Domain;
 
 namespace Infra
 {
-    class CoursesRepo
+    public interface ICoursesRepo : IRepo<Course> { }
+
+    public sealed class CoursesRepo : BaseRepo<Course>,
+        ICoursesRepo
     {
+        public CoursesRepo(ApplicationDbContext c) : base(c, c?.Courses) { }
     }
 }
